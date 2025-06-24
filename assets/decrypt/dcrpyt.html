@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Decrypt Quiz Submission</title>
+		<script src="crypto-js.min.js"></script>
+	</head>
+	<body>
+		<h2>Decrypt Quiz Submission</h2>
+		<input type="file" id="fileInput" accept=".dat,.json,.txt" />
+		<br /><br />
+		<input
+			type="password"
+			id="password"
+			placeholder="Enter password"
+			value="teacherSecret"
+		/>
+		<button onclick="decryptFile()">Decrypt</button>
+		<pre
+			id="output"
+			style="white-space: pre-wrap; background: #f8f8f8; padding: 10px"
+		></pre>
+
+		<script>
+			function decryptFile() {
+				const fileInput = document.getElementById("fileInput");
+				const password = document.getElementById("password").value;
+				const output = document.getElementById("output");
+				if (!fileInput.files.length) {
+					output.textContent = "Please select a file.";
+					return;
+				}
+				const reader = new FileReader();
+				reader.onload = function (e) {
+					try {
+						const encrypted = e.target.result;
+						const decrypted = CryptoJS.AES.decrypt(
+							encrypted,
+							password
+						).toString(CryptoJS.enc.Utf8);
+						if (decrypted) {
+							const results = JSON.parse(decrypted);
+							const correctCount = countCorrectAnswers(results);
+							output.textContent =
+								"Correct answers: " +
+								correctCount +
+								" out of " +
+								results.length +
+								"\n\n" +
+								JSON.stringify(results, null, 2);
+						} else {
+							output.textContent = "Wrong password or invalid file.";
+						}
+					} catch (err) {
+						output.textContent = "Error: " + err;
+					}
+				};
+				reader.readAsText(fileInput.files[0]);
+			}
+
+			// Add this function after decryptFile
+			function countCorrectAnswers(results) {
+				if (!Array.isArray(results)) return 0;
+				return results.filter((item) => item.is_correct === true).length;
+			}
+		</script>
+	</body>
+</html>
