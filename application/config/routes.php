@@ -56,6 +56,8 @@ $route['translate_uri_dashes'] = FALSE;
 // Authentication Routes
 $route['login'] = 'AuthenticationController/login';
 $route['logout'] = 'AuthenticationController/logout';
+$route['register_account'] = 'AuthenticationController/register_account';
+$route['save_account_registration'] = 'AuthenticationController/save_account_registration';
 
 // Student Routes
 $route['student_info'] = 'StudentController/student_info';
@@ -64,6 +66,7 @@ $route['get_id'] = 'StudentController/get_id';
 $route['update_account'] = 'StudentController/update_account';
 $route['update_account_form'] = 'StudentController/update_account_form';
 $route['student/get-discussion-mode'] = 'StudentController/get_discussion_mode';
+$route['register_student'] = 'StudentController/register_student';
 
 // Grades Routes
 $route['grades'] = 'GradesController/grades';

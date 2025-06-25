@@ -21,6 +21,11 @@ class StudentController extends CI_Controller
             redirect('find_id');
         }
 
+        $this->session->set_userdata([
+            'tmp_student_id' => $student->trans_no,
+            'tmp_student_no' => $student->student_no
+        ]);
+
         $this->load->view('student_details', $student);
     }
 
@@ -87,6 +92,36 @@ class StudentController extends CI_Controller
             echo json_encode(['discussion_mode' => $discussion_mode]);
         } else {
             echo json_encode(['error' => 'Discussion mode setting not found.']);
+        }
+    }
+
+    public function register_student()
+    {
+        if ($this->input->method() === 'post') {
+            $input = $this->input->post();
+
+            // Validate input
+            if (empty($input['lastname']) || empty($input['firstname']) || empty($input['middlename'])) {
+                $this->session->set_flashdata('error', 'All fields are required.');
+                redirect('register_student');
+            }
+
+            // Insert into student_master
+            $this->db->insert('student_master', [
+                'lastname'   => $input['lastname'],
+                'firstname'  => $input['firstname'],
+                'middlename' => $input['middlename'],
+            ]);
+
+            if ($this->db->affected_rows() > 0) {
+                $this->session->set_flashdata('success', 'Registration successful. You may now find your ID.');
+                redirect('find_id');
+            } else {
+                $this->session->set_flashdata('error', 'Registration failed. Please try again.');
+                redirect('register_student');
+            }
+        } else {
+            $this->load->view('register_student');
         }
     }
 }
