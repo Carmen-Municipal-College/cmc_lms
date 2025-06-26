@@ -24,7 +24,7 @@
         <select name="class_id" required>
             <option value="">Select Class</option>
             <?php foreach ($classes as $class): ?>
-                <option value="<?php echo $class->class_id; ?>"><?php echo $class->class_name; ?></option>
+                <option value="<?php echo $class->id; ?>"><?php echo $class->class_name; ?></option>
             <?php endforeach; ?>
         </select><br>
         <button type="submit">Register</button>

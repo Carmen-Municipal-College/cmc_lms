@@ -3,12 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class assessments extends CI_Model
 {
-   
+
     public function get_students_assessments($student_id, $section)
     {
         $sql = "
             SELECT 
-                a.assessment_id,
+                a.id,
                 a.iotype_id,
                 a.title,
                 a.description,
@@ -18,10 +18,10 @@ class assessments extends CI_Model
                 iot.type,
                 cs.section
             FROM 
-                assessments a
+                classwork_assign a
             LEFT JOIN 
-                classworks c 
-                ON a.assessment_id = c.assessment_id 
+                submissions c 
+                ON a.id = c.id 
                 AND c.student_id = ?
             JOIN 
                 class_schedule cs

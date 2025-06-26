@@ -86,7 +86,7 @@ class AttendanceController extends CI_Controller
     private function handleStudentAttendance($class, $student_id, $date)
     {
         $this->attendance->start_class(
-            $class['schedule_id'],
+            $class['id'],
             $class['section'],
             $date
         );
@@ -94,7 +94,7 @@ class AttendanceController extends CI_Controller
         $check_student = $this->attendance
             ->where([
                 'student_id' => $student_id,
-                'schedule_id' => $class['schedule_id'],
+                'schedule_id' => $class['id'],
                 'date(date)' => $date,
             ])
             ->get();

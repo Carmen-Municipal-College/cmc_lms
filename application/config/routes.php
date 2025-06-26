@@ -77,7 +77,7 @@ $route['sectionFinalGrades/(:any)'] = 'GradesController/sectionFinalGrades/$1';
 $route['attendance'] = 'AttendanceController/attendance_main';
 
 // Classwork Routes
-$route['classwork'] = 'ClassworkController/classwork';
+$route['classwork'] = 'lms_ClassworkController/classwork';
 $route['submit_classwork'] = 'ClassworkController/submit_classwork';
 $route['student_submission/(:num)'] = 'ClassworkController/student_submission/$1';
 $route['start_class'] = 'ClassworkController/start_class';

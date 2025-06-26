@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class attendance extends MY_Model
 {
     public $table = 'attendance';
-    public $primary_key = 'attendance_id';
+    public $primary_key = 'id';
     public $protected = ['attendance_id'];
     public $fillable = ['status'];
 
@@ -20,7 +20,7 @@ class attendance extends MY_Model
         $this->has_many['class_schedule'] = [
             'foreign_model' => 'class_schedule',
             'foreign_table' => 'class_schedule',
-            'foreign_key' => 'schedule_id',
+            'foreign_key' => 'id',
             'local_key' => 'schedule_id',
         ];
         parent::__construct();
@@ -37,8 +37,8 @@ class attendance extends MY_Model
             ->query("SELECT c.class_code, c.class_name, cs.type, sm.lastname, sm.firstname, a.date 
                 FROM attendance a
                 JOIN student_master sm ON a.student_id = sm.trans_no
-                JOIN class_schedule cs ON a.schedule_id = cs.schedule_id
-                JOIN classes c ON cs.class_id = c.class_id WHERE student_id = $id
+                JOIN class_schedule cs ON a.schedule_id = cs.id
+                JOIN classes c ON cs.id = c.id WHERE student_id = $id
                 AND a.status = 'present'
                 order by date desc");
 
@@ -97,7 +97,7 @@ class attendance extends MY_Model
             "
             SELECT student_id, COUNT(*) as present_days
             FROM attendance a
-            JOIN class_schedule cs ON a.schedule_id = cs.schedule_id 
+            JOIN class_schedule cs ON a.schedule_id = cs.id 
             WHERE cs.section = ? AND status = 'present' AND DATE(a.date) BETWEEN ? AND ?
             GROUP BY student_id
             ORDER BY present_days DESC
@@ -116,7 +116,7 @@ class attendance extends MY_Model
             "
             SELECT COUNT(*) as present_days
             FROM attendance a
-            JOIN class_schedule cs ON a.schedule_id = cs.schedule_id 
+            JOIN class_schedule cs ON a.schedule_id = cs.id 
             WHERE cs.section = ? AND student_id = ? AND (status = 'present' OR status = 'excuse')
             AND DATE(a.date) BETWEEN ? AND ?
         ",

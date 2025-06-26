@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class class_schedule extends MY_Model
 {
     public $table = 'class_schedule';
-    public $primary_key = 'schedule_id';
+    public $primary_key = 'id';
     public $protected = array('schedule_id');
 
     public function __construct()
@@ -13,7 +13,7 @@ class class_schedule extends MY_Model
         $this->has_one['classes'] =  array(
             'foreign_model' => 'classes',
             'foreign_table' => 'classes',
-            'foreign_key' => 'class_id',
+            'foreign_key' => 'id',
             'local_key' => 'class_id'
         );
         parent::__construct();
@@ -22,7 +22,7 @@ class class_schedule extends MY_Model
     public function class_today($day)
     {
         $query = $this->db->query("SELECT * FROM class_schedule 
-        JOIN classes ON class_schedule.class_id = classes.class_id 
+        JOIN classes ON class_schedule.class_id = classes.id 
         WHERE day LIKE '%$day%' 
         AND CURTIME() BETWEEN time_start AND time_end ");
 
